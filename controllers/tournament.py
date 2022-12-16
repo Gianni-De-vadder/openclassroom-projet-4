@@ -2,12 +2,13 @@ from models.database import Database
 from views.view_tournament import ViewTournament
 from models.tournament import Tournament
 from controllers.player import PlayerController
+from utils.db import db_tournament
 
 
 class TournamentController:
     def __init__(self) -> None:
         self.view = ViewTournament()
-        self.database = Database("tournaments")
+        self.database = db_tournament
         self.player_controller = PlayerController()
 
     def handle_tournament(self):
@@ -64,4 +65,4 @@ class TournamentController:
 
     def display_players_order_by_name(self):
         """Print players order by name"""
-        print(self.player_controller.display_players_order_by_name(validation=False))
+        return self.player_controller.display_players_order_by_name(validation=False)

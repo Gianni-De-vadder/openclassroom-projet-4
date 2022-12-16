@@ -49,4 +49,3 @@ class Tournament:
             self.players_list.append(player)
 
         return self.players_list
-        

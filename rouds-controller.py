@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import date
 
-from models.player import Player
+from .player import Player
 
 # from typing import NamedTuple
 # class nPlayerScore(NamedTuple):

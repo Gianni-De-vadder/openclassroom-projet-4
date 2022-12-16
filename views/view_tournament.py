@@ -1,19 +1,12 @@
 from tabulate import tabulate
 from .view_player import ViewPlayer
-from models.database import Database
-from models.player import Player
-from utils.db import db_player, db_tournament
-from controllers.tournament import display_players_order_by_name
+from controllers.player import PlayerController
 
 
 tabulate.PRESERVE_WHITESPACE = False
 
 
 class ViewTournament:
-    def __init__(self) -> None:
-
-        self.tournament_database = Database("tournaments")
-
     def display_tournament_menu(self):
         """Display the player main menu and return the user choice"""
 
@@ -75,7 +68,7 @@ class ViewTournament:
     def choose_tournament_by(self):
         while True:
             choice = input(
-                "Voulez-vous afficher l'ordre par nom ou elo ? (nom / elo / q pour quitter) :"
+                "Voulez-vous afficher l'ordre par nom ou elo ? (nom / elo / q pour quitter) : "
             )
             if choice == "nom":
                 print("tableau filtré par nom")
@@ -106,11 +99,12 @@ class ViewTournament:
 
     def get_tournament_players(self, nb_players):
         players_ids = []
-
+        PlayerController.second_display_players_order_by_name()
+        # self.display_players_list(players_list)
         while True:
             print(nb_players)
             player_id = input(
-                "Taper les IDs des joueur a ajouter en les séparant par un espace"
+                "Taper les IDs des joueurs a ajouter en les séparant par un espace : "
             )
             players_ids = player_id.split(" ")
             if len(players_ids) == nb_players:
@@ -125,6 +119,10 @@ class ViewTournament:
                 return False
             else:
                 continue
+
+    def display_players_list(self, players_list):
+
+        return ViewPlayer.display_players_list(players_list)
 
 
 if __name__ == "__main__":

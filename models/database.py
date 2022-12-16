@@ -6,12 +6,8 @@ class Database:
     def __init__(self, db_name) -> None:
         self.db = TinyDB(db_name)
 
-    # def __init__(self) -> None:
-    #     self.db = TinyDB(DATABASE_NAME)
-
     def save_db(self, data):
 
-        # db = Connexion.TinyDB_Connect(db_name)
         self.db.insert(data)
         print(f"sauvegardé avec succès.")
 
