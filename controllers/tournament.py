@@ -40,7 +40,8 @@ class TournamentController:
             user_entries["players_ids"],
         )
 
-        tournament.get_players_data()
+        players_data = tournament.get_players_data()
+        print(players_data)
 
         start = self.view.select_start()
 
