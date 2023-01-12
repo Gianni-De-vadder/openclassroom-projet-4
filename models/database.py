@@ -40,8 +40,11 @@ class Database:
         return sorted(data, key=lambda doc: doc.get(order), reverse=reverse)
 
     def get_element_by_id(self, id):
+        record = self.db.get(doc_id=id)
+        if record is not None:
+            record["id"] = record.doc_id
 
-        return self.db.get(doc_id=id)
+        return record
 
     def get_all_data(self):
 

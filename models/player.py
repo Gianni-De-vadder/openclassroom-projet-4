@@ -15,10 +15,17 @@ class Player:
         self.first_name = first_name
         self.elo = elo
         self.dob = dob
-        self.id = None
+        self.score = 0
+        self.id = id
 
     def __str__(self) -> str:
         return self.name
+
+    def __lt__(self, other_player: "Player"):
+        """Useful to sort a list of player on their score or rank"""
+        if self.score == other_player.score:
+            return self.elo < other_player.elo
+        return self.score < other_player.score
 
     def display_ranking_by_name(cls):
         """

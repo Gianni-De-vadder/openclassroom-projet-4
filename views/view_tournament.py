@@ -107,6 +107,7 @@ class ViewTournament:
                 "Taper les IDs des joueurs a ajouter en les séparant par un espace : "
             )
             players_ids = player_id.split(" ")
+            players_ids = [int(id) for id in players_ids]
             if len(players_ids) == nb_players:
                 return players_ids
 
@@ -119,6 +120,16 @@ class ViewTournament:
                 return False
             else:
                 continue
+
+    @classmethod
+    def input_score(cls, match):
+        print(
+            f"Indiquer le résultat entre les {match.p1_full_name} et {match.p2_full_name}"
+        )
+        score = input(
+            f"Qui est le vainqueur (1 : Joueur 1 / 2 : Joueur 2 / 3 : Match Nul) : "
+        )
+        return score
 
     def display_players_list(self, players_list):
 

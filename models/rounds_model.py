@@ -3,11 +3,6 @@ from datetime import date
 
 from models.player import Player
 
-# from typing import NamedTuple
-# class nPlayerScore(NamedTuple):
-#     player: Player
-#     score: int = 0
-
 
 class PlayerScore:
     """Represents a player with a score"""
