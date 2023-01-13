@@ -49,3 +49,47 @@ class Tournament:
             players_list.append(player)
 
         return players_list
+
+    def create_desc_lists(self, list) -> list:
+        """
+        It takes a list of players and returns a list of two lists, each containing the players for each
+        team
+
+        :param list: The list of players that will be split into two teams
+        :return: A list of lists.
+        """
+        i = 0
+        TeamA = []
+        TeamB = []
+        for element in list:
+            if i == 0:
+                TeamA.append(element)
+                i = 1
+            else:
+                TeamB.append(element)
+                i = 0
+        Teams = []
+        Teams.append(TeamA)
+        Teams.append(TeamB)
+        return Teams
+
+    def assign_players_from_lists(self, listA, listB):
+        i = 0
+        games = []
+        for player in listA:
+            game = []
+            game.append(listA[i])
+            game.append(listB[i])
+            games.append(game)
+            i += 1
+        return games
+
+    def ask_score(self, player):
+        score = input(
+            f"Quel est le score de {player.first_name} {player.name} ? (1 = Gagnant 0 = Perdant 0.5 = Egalité) "
+        )
+        try:
+            score = int(score)
+        except:
+            score = float(score)
+        return score

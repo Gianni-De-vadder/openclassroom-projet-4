@@ -37,8 +37,17 @@ class Player:
         return db_player.sorted_by("name")
 
     @classmethod
+    def sort_players_list_by(cls, playerslist):
+        players = sorted(playerslist, reverse=True)
+        # for player in playerslist:
+        # print(
+        # f"Prénom : {player.first_name} Nom : {player.name} Elo : {player.elo}"
+        # )
+        return players
+
+    @classmethod
     def display_ranking_by_elo(cls):
-        return db_player.load_db(cls.table_name, "elo")
+        return db_player.sorted_by("elo")
 
     def serialize(self) -> dict:
         """Return a dictionnary with the object attribute value"""

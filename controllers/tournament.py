@@ -1,6 +1,7 @@
 from models.database import Database
 from views.view_tournament import ViewTournament
 from models.tournament import Tournament
+from models.player import Player
 from controllers.player import PlayerController
 from utils.db import db_tournament
 from models.rounds_model import Round, Match, PlayerScore
@@ -48,7 +49,7 @@ class TournamentController:
 
         if start == True:
             print("Démarrage du tournoi")
-            self.play_tournament(self.tournament.players)
+            self.play_tournament()
 
         else:
             print("Tournoi aborté")
@@ -59,15 +60,11 @@ class TournamentController:
         # #Sauvegarde du tournoi dans la database
         return self.tournament
 
-    def play_tournament(self, players):
-        players_list = self.tournament.players
+    def play_tournament(self):
         first_round = self.get_first_round()
         print(first_round)
-        print("coucou")
         # Saisir resultat match ou sortir ?
         # Lancer round suivant
-
-        nb_players = len(players)
 
     def set_round_scores(self, current_round):
         for match in current_round.matches:
@@ -77,25 +74,46 @@ class TournamentController:
     def get_first_round(self) -> Round:
         """Return a Round object"""
         # -Trier joueurs par ELO
-        players = []
-        coucou = "coucou"
-        for player in self.tournament.players:
-            print("Coucou")
+        print(type(self.tournament.players))
 
-        return coucou
-        # -Créer deux listes en coupant à la moitié
+        players = Player.sort_players_list_by(self.tournament.players)
 
-        # -Assigner le joueur 0 de la première liste avec le joueur 0 de la deuxième (Faire de même pour les autres)
+        # -Créer deux listes en répartissant les forces
+        Teams = self.tournament.create_desc_lists(players)
+        TeamA = Teams[0]
+        TeamB = Teams[1]
+
+        # Assigner joueur 0 TeamA avec joueur 0 TeamB ect...
+        games = self.tournament.assign_players_from_lists(TeamA, TeamB)
+
         # Créer liste de match (vide)
-        # for idx, player in enumerate(players):
-        # Créer Playerscore 1
-        # Créer Playerscore 2
-        # Créer match(Playerscore1, Playerscore2)
-        # Ajouter match à la liste de match
+        matches = []
 
+        i = 0
+        for idx, player in enumerate(games):
+            print(
+                f"Match entre : {games[i][0].first_name} {games[i][0].name} et {games[i][1].first_name} {games[i][1].name}"
+            )
+            # Créer Playerscore 1
+            ps1 = PlayerScore(games[i][0], self.tournament.ask_score(games[i][0]))
+
+            # Créer Playerscore 2
+            ps2 = PlayerScore(games[i][1], self.tournament.ask_score(games[i][1]))
+            print(ps1)
+            print(ps2)
+
+            # Créer match(Playerscore1, Playerscore2)
+            match = Match(ps1, ps1)
+
+            # Ajouter match à la liste de match
+            matches.append(match)
+            i += 1
+        # Créer round
+        round = Round("Ronde 1", matches, "13/01/2023", "13/01/2023", "Terminé")
         # Retourner Round
+        return round
 
-    def get_first_round(self):
+    def get_next_round(self):
         """Return a Round object"""
         # Trier les joueurs par le score
 
