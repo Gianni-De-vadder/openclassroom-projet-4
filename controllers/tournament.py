@@ -67,6 +67,7 @@ class TournamentController:
         while self.tournament.current_round <= self.tournament.nb_rounds:
             self.get_next_round()
 
+        print(self.tournament.rounds)
         classment = Player.sort_players_list_by(self.tournament.players)
         print(f"{classment[0]} est le vainqueur")
 
@@ -164,7 +165,7 @@ class TournamentController:
             # Créer round
 
         round = Round(
-            f"Ronde {self.tournament.current_round} ",
+            f"Round {self.tournament.current_round} ",
             matches,
             "13/01/2023",
             "13/01/2023",

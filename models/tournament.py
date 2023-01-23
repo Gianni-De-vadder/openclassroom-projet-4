@@ -35,6 +35,8 @@ class Tournament:
     def serialize(self) -> dict:
         """Return a dictionnary with the object attribute value"""
         rounds = []
+        [rounds.append(round.serialize()) for round in self.rounds]
+        print(rounds)
         data = {
             "tournament_name": self.tournament_name,
             "nb_player": self.nb_players,
@@ -42,7 +44,7 @@ class Tournament:
             "nb_rounds": self.nb_rounds,
             "players": [player.id for player in self.players],
             "current_round": self.current_round,
-            "rounds": [rounds.append(round.serialize()) for round in self.rounds],
+            "rounds": rounds,
         }
         return data
 
