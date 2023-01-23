@@ -39,10 +39,6 @@ class Player:
     @classmethod
     def sort_players_list_by(cls, playerslist):
         players = sorted(playerslist, reverse=True)
-        # for player in playerslist:
-        # print(
-        # f"Prénom : {player.first_name} Nom : {player.name} Elo : {player.elo}"
-        # )
         return players
 
     @classmethod

@@ -62,7 +62,16 @@ class TournamentController:
 
     def play_tournament(self):
         first_round = self.get_first_round()
-        print(first_round)
+        first_round.serialize()
+        self.tournament.nb_rounds = int(self.tournament.nb_rounds)
+        while self.tournament.current_round <= self.tournament.nb_rounds:
+            self.get_next_round()
+
+        classment = Player.sort_players_list_by(self.tournament.players)
+        print(f"{classment[0]} est le vainqueur")
+
+        serialize = self.tournament.serialize()
+        db_tournament.save_db(serialize)
         # Saisir resultat match ou sortir ?
         # Lancer round suivant
 
@@ -74,7 +83,6 @@ class TournamentController:
     def get_first_round(self) -> Round:
         """Return a Round object"""
         # -Trier joueurs par ELO
-        print(type(self.tournament.players))
 
         players = Player.sort_players_list_by(self.tournament.players)
 
@@ -88,6 +96,9 @@ class TournamentController:
 
         # Créer liste de match (vide)
         matches = []
+
+        # Créer liste de rencontres
+        self.meetings = {}
 
         i = 0
         for idx, player in enumerate(games):
@@ -105,17 +116,65 @@ class TournamentController:
             # Créer match(Playerscore1, Playerscore2)
             match = Match(ps1, ps1)
 
+            self.tournament.meetings[ps1.player.id] = [ps2.player.id]
+            print(self.tournament.meetings)
+
             # Ajouter match à la liste de match
             matches.append(match)
             i += 1
         # Créer round
-        round = Round("Ronde 1", matches, "13/01/2023", "13/01/2023", "Terminé")
+        round = Round("Round 1", matches, "13/01/2023", "13/01/2023", "Terminé")
+        self.tournament.rounds.append(round)
+        print(f" Round numéro : {self.tournament.current_round}")
+        self.tournament.current_round += 1
         # Retourner Round
         return round
 
     def get_next_round(self):
         """Return a Round object"""
-        # Trier les joueurs par le score
+        # -Trier joueurs par ELO
+
+        games = self.tournament.sort_players_score_next_round()
+        # Créer liste de match (vide)
+        matches = []
+
+        for element in games:
+            for k, v in element.items():
+                player1 = k
+                player2 = v
+                print(
+                    f"Match entre : {player1.first_name} {player1.name} et {player2.first_name} {player2.name}"
+                )
+                # Créer Playerscore 1
+                ps1 = PlayerScore(player1, self.tournament.ask_score(player1))
+
+                # Créer Playerscore 2
+                ps2 = PlayerScore(player2, self.tournament.ask_score(player2))
+
+                print(ps1)
+
+                print(ps2)
+
+                # Créer match(Playerscore1, Playerscore2)
+                match = Match(ps1, ps2)
+
+                # Ajouter match à la liste de match
+                matches.append(match)
+
+            # Créer round
+
+        round = Round(
+            f"Ronde {self.tournament.current_round} ",
+            matches,
+            "13/01/2023",
+            "13/01/2023",
+            "Terminé",
+        )
+        print(f" Round numéro : {self.tournament.current_round}")
+        self.tournament.current_round += 1
+        self.tournament.rounds.append(round)
+        # Retourner Round
+        return round
 
     def history_tournament(self, validation=False):
         choice = self.view.choose_tournament_by()
@@ -127,3 +186,10 @@ class TournamentController:
     def display_players_order_by_name(self):
         """Print players order by name"""
         return self.player_controller.display_players_order_by_name(validation=False)
+
+    def resume_tournament(self, id):
+        # Récupérer les données du tournoi séléctionné
+        # Récréer un objet tournoi à base des données
+        #
+
+        return None

@@ -15,6 +15,8 @@ class Tournament:
         nb_rounds: str,
         players=None,
         current_round=0,
+        rounds=None,
+        meetings=None,
         id: int = None,
     ) -> None:
         self.tournament_name = tournament_name
@@ -22,7 +24,9 @@ class Tournament:
         self.type = type
         self.nb_rounds = nb_rounds
         self.players = None
-        self.current_round = 0
+        self.current_round = 1
+        self.rounds = []
+        self.meetings = {}
         self.id = None
 
     def __str__(self) -> str:
@@ -30,12 +34,15 @@ class Tournament:
 
     def serialize(self) -> dict:
         """Return a dictionnary with the object attribute value"""
+        rounds = []
         data = {
             "tournament_name": self.tournament_name,
             "nb_player": self.nb_players,
             "type": self.type,
             "nb_rounds": self.nb_rounds,
             "players": [player.id for player in self.players],
+            "current_round": self.current_round,
+            "rounds": [rounds.append(round.serialize()) for round in self.rounds],
         }
         return data
 
@@ -93,3 +100,19 @@ class Tournament:
         except:
             score = float(score)
         return score
+
+    def sort_players_score_next_round(self):
+        final_list = []
+        sorted_list = Player.sort_players_list_by(self.players)
+        selected_player = sorted_list
+        while len(selected_player) > 0:
+            match = {}
+            player = selected_player[0]
+            opponent = selected_player[1]
+            players_met = self.meetings.get(player.id, [])
+            if opponent.id not in players_met:
+                match[player] = opponent
+                final_list.append(match)
+                selected_player.remove(player)
+                selected_player.remove(opponent)
+        return final_list

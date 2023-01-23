@@ -50,11 +50,11 @@ class PlayerController:
         )
 
         # Serialization
-        serialized_player = Database("players").serialize(player)
+        serialized_player = player.serialize()
         print(serialized_player)
 
         # #Sauvegarde du joueur dans la database
-        Database("players").save_db(serialized_player)
+        db_player.save_db(serialized_player)
         return player
 
     # def auto_increment_player():

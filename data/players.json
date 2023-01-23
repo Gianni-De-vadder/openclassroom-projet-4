@@ -23,6 +23,24 @@
             "name": "dr",
             "elo": 10,
             "dob": "098765"
+        },
+        "5": {
+            "first_name": "Thomas",
+            "name": "Jouclas",
+            "elo": 1200,
+            "dob": "25-08-1967"
+        },
+        "6": {
+            "first_name": "Corentin",
+            "name": "Nercy",
+            "elo": 2000,
+            "dob": "25-08-1967"
+        },
+        "7": {
+            "first_name": "Albert",
+            "name": "Delut",
+            "elo": 400,
+            "dob": "25-08-1967"
         }
     }
 }
