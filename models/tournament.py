@@ -54,7 +54,7 @@ class Tournament:
             "vainqueur": "Undefined",
             "status": self.status,
         }
-        if data["current_round"] == self.nb_rounds:
+        if data["current_round"] >= self.nb_rounds:
             data["vainqueur"] = self.winner.first_name
         return data
 

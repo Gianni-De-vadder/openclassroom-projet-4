@@ -63,14 +63,25 @@ class TournamentController:
         first_round = self.get_first_round()
         first_round.serialize()
         self.tournament.nb_rounds = int(self.tournament.nb_rounds)
-        while self.tournament.current_round > self.tournament.nb_rounds:
-            self.get_next_round()
+        while self.tournament.current_round < self.tournament.nb_rounds:
+            continue_rounds = input(
+                f"Round {self.tournament.current_round} : Souhaitez-vous continuer le tournoi ou reprendre plus tard ? ( 1 - Oui/ 2 - Non) "
+            )
+            if continue_rounds == "1":
+                self.get_next_round()
+            elif continue_rounds == "2":
+                self.tournament.serialize()
+            else:
+                print("Merci d'entrer un choix proposé (1 ou 2)")
 
         classment = Player.sort_players_list_by(self.tournament.players)
         print(f"{classment[0]} est le vainqueur")
         self.tournament.winner = classment[0]
-        self.tournament.current_round = self.tournament.current_round - 1
-        self.tournament.status = 1
+        if self.tournament.current_round >= self.tournament.nb_rounds:
+            self.tournament.status = 1
+
+        else:
+            self.tournament.status = 0
         serialize = self.tournament.serialize()
         if resume == False:
             db_tournament.save_db(serialize)
