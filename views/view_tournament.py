@@ -48,7 +48,11 @@ class ViewTournament:
             players_ids = self.get_tournament_players(int(nb_players))
             print(players_ids)
 
-            nb_rounds = input("Nombre de rondes : ")
+            max_rounds = int(nb_players) - 1
+
+            nb_rounds = input(
+                f"Nombre de rounds ({max_rounds} maximum pour {nb_players} joueurs)  : "
+            )
             print(nb_players)
 
             tournament = {
@@ -82,18 +86,48 @@ class ViewTournament:
                 print("Merci choisir un choix proprosé...")
                 break
 
+    def ask_tournaments(self):
+        while True:
+            choice = input(
+                "Voulez-vous voir les tournois en cours ou tous les tournoi ? (1 - En cours / 2 - Tous / q - Quitter) : "
+            )
+            if choice == "1":
+                print("Voici les tournois en cours : ")
+                return "en cours"
+            elif choice == "2":
+                print("Voici tous les tournois : ")
+                return "tous"
+            elif choice == "q":
+                break
+            else:
+                print("Merci choisir un choix proprosé...")
+                break
+
+    def display_running_ask_id(self):
+        while True:
+            choice = input("Merci de taper l'id du tournoi à reprendre (q - Quitter )")
+            try:
+                choice = int(choice)
+            except:
+                pass
+            print(choice)
+            if choice == "q" or choice == "Q":
+                print("Sortie")
+                return False
+            elif isinstance(choice, int):
+                print("Reprise du tournoi ")
+                return choice
+            else:
+                print("Merci choisir un choix proprosé...")
+                continue
+
     def display_tournament_historic(self, tournaments):
         print(
             tabulate(
                 tournaments,
                 headers="keys",
                 tablefmt="github",
-                colalign=(
-                    "center",
-                    "center",
-                    "center",
-                    "center",
-                ),
+                colalign=("center",),
             )
         )
 

@@ -5,6 +5,7 @@ from models.player import Player
 from controllers.player import PlayerController
 from utils.db import db_tournament
 from models.rounds_model import Round, Match, PlayerScore
+from textwrap import wrap
 
 
 class TournamentController:
@@ -24,7 +25,6 @@ class TournamentController:
                 # creation d'un joueur
                 self.create_tournament()
             elif choice == "2":
-                # Update player
                 self.history_tournament()
             elif choice == "3":
                 exit_requested = True
@@ -52,27 +52,33 @@ class TournamentController:
             self.play_tournament()
 
         else:
-            print("Tournoi aborté")
+            print("Tournoi Sauvegardé, voir historique pour reprendre")
             serialized_tournament = self.tournament.serialize()
-
             self.database.save_db(serialized_tournament)
 
         # #Sauvegarde du tournoi dans la database
         return self.tournament
 
-    def play_tournament(self):
+    def play_tournament(self, resume=False):
         first_round = self.get_first_round()
         first_round.serialize()
         self.tournament.nb_rounds = int(self.tournament.nb_rounds)
-        while self.tournament.current_round <= self.tournament.nb_rounds:
+        while self.tournament.current_round > self.tournament.nb_rounds:
             self.get_next_round()
 
-        print(self.tournament.rounds)
         classment = Player.sort_players_list_by(self.tournament.players)
         print(f"{classment[0]} est le vainqueur")
-
+        self.tournament.winner = classment[0]
+        self.tournament.current_round = self.tournament.current_round - 1
+        self.tournament.status = 1
         serialize = self.tournament.serialize()
-        db_tournament.save_db(serialize)
+        if resume == False:
+            db_tournament.save_db(serialize)
+        if resume == True:
+            db_tournament.update_db(serialize, self.tournament.id, tournament=True)
+
+        print(f"tournament_data : {serialize}")
+
         # Saisir resultat match ou sortir ?
         # Lancer round suivant
 
@@ -124,10 +130,11 @@ class TournamentController:
             matches.append(match)
             i += 1
         # Créer round
+        self.tournament.current_round += 1
         round = Round("Round 1", matches, "13/01/2023", "13/01/2023", "Terminé")
         self.tournament.rounds.append(round)
         print(f" Round numéro : {self.tournament.current_round}")
-        self.tournament.current_round += 1
+
         # Retourner Round
         return round
 
@@ -164,6 +171,9 @@ class TournamentController:
 
             # Créer round
 
+        print(f" Round numéro : {self.tournament.current_round}")
+
+        self.tournament.current_round += 1
         round = Round(
             f"Round {self.tournament.current_round} ",
             matches,
@@ -171,15 +181,32 @@ class TournamentController:
             "13/01/2023",
             "Terminé",
         )
-        print(f" Round numéro : {self.tournament.current_round}")
-        self.tournament.current_round += 1
         self.tournament.rounds.append(round)
         # Retourner Round
         return round
 
     def history_tournament(self, validation=False):
-        choice = self.view.choose_tournament_by()
-        sorted_data = self.database.sorted_by(choice)
+        choice = self.view.ask_tournaments()
+        if choice == "en cours":
+            sorted_data = Tournament.in_progress_tournament()
+            self.view.display_tournament_historic(sorted_data)
+            result = self.view.display_running_ask_id()
+            if isinstance(result, int):
+                self.resume_tournament(result)
+        elif choice == "tous":
+            choice = self.view.choose_tournament_by()
+            sorted_data = db_tournament.sorted_by(choice)
+            for element in sorted_data:
+                element["rounds"] = "Trop long pour afficher"
+            self.view.display_tournament_historic(sorted_data)
+        else:
+            print("Merci d'entrer un valeur valide")
+        if validation == True:
+            input("\nAppuyez sur Entreé pour continuer ")
+
+    def show_running_tournament(self, validation=False):
+        choice = self.view.ask_tournaments()
+        sorted_data = self.database.get_running_tournament()
         self.view.display_tournament_historic(sorted_data)
         if validation == True:
             input("\nAppuyez sur Entreé pour continuer ")
@@ -189,8 +216,7 @@ class TournamentController:
         return self.player_controller.display_players_order_by_name(validation=False)
 
     def resume_tournament(self, id):
-        # Récupérer les données du tournoi séléctionné
-        # Récréer un objet tournoi à base des données
-        #
-
-        return None
+        data = db_tournament.get_element_by_id(id)
+        data["id"] = id
+        self.tournament = Tournament.deserialize(data)
+        self.play_tournament(resume=True)

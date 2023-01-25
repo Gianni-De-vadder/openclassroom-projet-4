@@ -101,6 +101,7 @@ class PlayerController:
     def display_players_order_by_name(self, validation=False):
         """Print players order by name"""
         players_by_name = self.database.sorted_by("name")
+        print(players_by_name)
         self.view.display_players_list(players_by_name)
         if validation == True:
             input("\nAppuyez sur Entreé pour continuer ")

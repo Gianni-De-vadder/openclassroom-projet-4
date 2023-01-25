@@ -1,5 +1,6 @@
 from .database import Database
 from models.player import Player
+from utils.db import db_tournament
 
 
 class Tournament:
@@ -17,6 +18,8 @@ class Tournament:
         current_round=0,
         rounds=None,
         meetings=None,
+        status=None,
+        winner=None,
         id: int = None,
     ) -> None:
         self.tournament_name = tournament_name
@@ -24,9 +27,11 @@ class Tournament:
         self.type = type
         self.nb_rounds = nb_rounds
         self.players = None
-        self.current_round = 1
+        self.current_round = 0
         self.rounds = []
         self.meetings = {}
+        self.status = 0
+        self.winner = ""
         self.id = None
 
     def __str__(self) -> str:
@@ -45,14 +50,47 @@ class Tournament:
             "players": [player.id for player in self.players],
             "current_round": self.current_round,
             "rounds": rounds,
+            "meetings": self.meetings,
+            "vainqueur": "Undefined",
+            "status": self.status,
         }
+        if data["current_round"] == self.nb_rounds:
+            data["vainqueur"] = self.winner.first_name
         return data
+
+    @classmethod
+    def deserialize(cls, data):
+        data["meetings"] = "rencontres"
+        data["vainqueur"] = "undifined"
+        tournament = Tournament(
+            data["tournament_name"],
+            data["nb_player"],
+            data["type"],
+            data["nb_rounds"],
+            "0",
+            int(data["current_round"]),
+            data["rounds"],
+            data["meetings"],
+            int(data["status"]),
+            str(data["vainqueur"]),
+            data["id"],
+        )
+        players_id = Tournament.deserialize_players(data["players"])
+        players = tournament.get_players_data(players_id)
+        tournament.players = players
+        return tournament
+
+    @classmethod
+    def deserialize_players(self, players_id):
+        print(players_id)
+        return players_id
 
     def get_players_data(self, players_ids: list[int]) -> list[Player]:
         """Return a players list from db (object)"""
-        print(players_ids)
+        print(f" list d'id de players {players_ids}")
         players_list = []
         for player_id in players_ids:
+            player_id = int(player_id)
             player_data = Player.get_player_by_id(player_id)
             player = Player.create_from_document(player_data)
             players_list.append(player)
@@ -118,3 +156,28 @@ class Tournament:
                 selected_player.remove(player)
                 selected_player.remove(opponent)
         return final_list
+
+    @classmethod
+    def in_progress_tournament(cls):
+        search = db_tournament.get_in_progress(0)
+        parse = cls.parse_in_progress(search)
+        return parse
+
+    @classmethod
+    def parse_in_progress(cls, data):
+        for element in data:
+            element["rounds"] = "Trop long pour afficher"
+            element["status"] = "En cours"
+        return data
+
+    @classmethod
+    def wrap(cls, data):
+        data = str(data)
+        count = len(str(data)) / 4
+        count = round(count)
+        print(count)
+        i = 0
+        while i != 4:
+            result = data[:count] + f"\n" + data[count:]
+            i += 1
+        return result
