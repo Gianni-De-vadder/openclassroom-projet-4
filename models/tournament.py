@@ -54,8 +54,13 @@ class Tournament:
             "vainqueur": "Undefined",
             "status": self.status,
         }
-        if data["current_round"] >= self.nb_rounds:
-            data["vainqueur"] = self.winner.first_name
+        current_round = int(data["current_round"])
+        print(current_round)
+        try:
+            if current_round >= self.nb_rounds:
+                data["vainqueur"] = self.winner.first_name
+        except:
+            pass
         return data
 
     @classmethod

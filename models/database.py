@@ -46,6 +46,7 @@ class Database:
     def get_in_progress(self, value):
         todo = Query()
         result = self.db.search(todo.status == value)
+        print("")
         for record in result:
             record["id"] = record.doc_id
         return result

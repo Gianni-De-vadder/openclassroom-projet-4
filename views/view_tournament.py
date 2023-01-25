@@ -98,7 +98,7 @@ class ViewTournament:
                 print("Voici tous les tournois : ")
                 return "tous"
             elif choice == "q":
-                break
+                return "q"
             else:
                 print("Merci choisir un choix proprosé...")
                 break
