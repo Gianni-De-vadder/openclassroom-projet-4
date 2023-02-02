@@ -136,14 +136,27 @@ class Tournament:
             i += 1
         return games
 
-    def ask_score(self, player):
-        score = input(
-            f"Quel est le score de {player.first_name} {player.name} ? (1 = Gagnant 0 = Perdant 0.5 = Egalité) "
-        )
-        try:
-            score = int(score)
-        except:
-            score = float(score)
+    def ask_score(self):
+        values = (1, 2, 3)
+        while True:
+            score = input(
+                f"Entrez le vainqueur (1 : Joueur 1   2 : Joueur 2   3 : Nul) "
+            )
+            try:
+                score = int(score)
+            except ValueError:
+                score = float(score)
+
+            if score in values:
+                break
+            else:
+                print("Merci d'entrer une valeur proposée ")
+
+        if score == 2:
+            score = 0
+        elif score == 3:
+            score = 0.5
+
         return score
 
     def sort_players_score_next_round(self):
