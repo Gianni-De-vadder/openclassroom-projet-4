@@ -65,7 +65,9 @@ class Tournament:
 
     @classmethod
     def deserialize(cls, data):
-        data["meetings"] = "rencontres"
+        if data["meetings"] == []:
+            data["meetings"] = "rencontres"
+
         data["vainqueur"] = "undifined"
         tournament = Tournament(
             data["tournament_name"],
