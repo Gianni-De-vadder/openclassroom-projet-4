@@ -14,7 +14,7 @@ class ApplicationController:
     def start(self):
         """Display the main menu and manage user choice"""
         exit_requested = False
-        
+
         while not exit_requested:
             choice = self.view_app.display_main_menu()
 
@@ -27,5 +27,3 @@ class ApplicationController:
                 # exit
             elif choice == "3":
                 exit_requested = True
-                
-

@@ -4,8 +4,8 @@ from models.rounds_model import Match, PlayerScore, Round
 from models.tournament import Tournament
 from utils.db import db_tournament
 from views.view_tournament import ViewTournament
-
 from controllers.player import PlayerController
+from datetime import date
 
 
 class TournamentController:
@@ -22,11 +22,14 @@ class TournamentController:
             choice = self.view.display_tournament_menu()
 
             if choice == "1":
-                # creation d'un joueur
                 self.create_tournament()
             elif choice == "2":
                 self.history_tournament()
+
             elif choice == "3":
+                self.show_running_tournament()
+
+            elif choice == "4":
                 exit_requested = True
 
     def create_tournament(self):
@@ -62,6 +65,8 @@ class TournamentController:
     def play_tournament(self, resume=False):
         first_round = self.get_first_round()
         first_round.serialize()
+        if resume == True:
+            print(self.tournament.meetings)
         self.tournament.nb_rounds = int(self.tournament.nb_rounds)
         while self.tournament.current_round <= self.tournament.nb_rounds:
             continue_rounds = input(
@@ -158,45 +163,33 @@ class TournamentController:
         """Return a Round object"""
         # -Trier joueurs par ELO
 
-        games = self.tournament.sort_players_score_next_round()
+        matches: list[Match] = self.tournament.get_matches()
         # Créer liste de match (vide)
-        matches = []
 
-        for element in games:
-            for k, v in element.items():
-                player1 = k
-                player2 = v
-                print(
-                    f"Match entre : {player1.first_name} {player1.name} et {player2.first_name} {player2.name} :"
-                )
-                total = 1
-                p1_score = self.tournament.ask_score()
-                p2_score = total - p1_score
-                # Créer Playerscore 1
-                ps1 = PlayerScore(player1, p1_score)
-
-                # Créer Playerscore 2
-                ps2 = PlayerScore(player2, p2_score)
-
-                print(ps1)
-
-                print(ps2)
-
-                # Créer match(Playerscore1, Playerscore2)
-                match = Match(ps1, ps2)
-
-                # Ajouter match à la liste de match
-                matches.append(match)
+        for match in matches:
+            player1 = match.player_score1
+            player2 = match.player_score2
+            print(
+                f"Match entre : {player1.player.first_name} {player1.player.name} et {player2.player.first_name} {player2.player.name} :"
+            )
+            match_result = self.tournament.ask_score()
+            if match_result == 1:
+                match.player_score1.score = 1
+            elif match_result == 2:
+                match.player_score2.score = 1
+            else:
+                match.player_score1.score = 0.5
+                match.player_score2.score = 0.5
 
             # Créer round
         self.tournament.current_round += 1
-        print(f" Round numéro : {self.tournament.current_round}")
+        print(f" Round numéro : {self.tournament.current_round} terminé")
 
         round = Round(
             f"Round {self.tournament.current_round} ",
             matches,
-            "13/01/2023",
-            "13/01/2023",
+            str(date.today),
+            str(date.today),
             "Terminé",
         )
         self.tournament.rounds.append(round)
@@ -204,36 +197,26 @@ class TournamentController:
         return round
 
     def history_tournament(self, validation=False):
-        choice = self.view.ask_tournaments()
-        if choice == "q":
-            exit
-        if choice == "en cours":
-            sorted_data = Tournament.in_progress_tournament()
-            if sorted_data != []:
-                self.view.display_tournament_historic(sorted_data)
-                result = self.view.display_running_ask_id()
-                if isinstance(result, int):
-                    self.resume_tournament(result)
-            else:
-                print("Pas de tournois à afficher")
-        elif choice == "tous":
-            choice = self.view.choose_tournament_by()
-            sorted_data = db_tournament.sorted_by(choice)
-            if sorted_data != []:
-                for element in sorted_data:
-                    element["rounds"] = "Trop long pour afficher"
-                self.view.display_tournament_historic(sorted_data)
-            else:
-                print("Pas de tournois à afficher")
+        choice = self.view.choose_tournament_by()
+        sorted_data = db_tournament.sorted_by(choice)
+        if sorted_data != []:
+            for element in sorted_data:
+                element["rounds"] = "Trop long pour afficher"
+            self.view.display_tournament_historic(sorted_data)
         else:
-            print("Merci d'entrer un valeur valide")
+            print("Pas de tournois à afficher")
         if validation == True:
             input("\nAppuyez sur Entreé pour continuer ")
 
     def show_running_tournament(self, validation=False):
-        choice = self.view.ask_tournaments()
-        sorted_data = self.database.get_running_tournament()
-        self.view.display_tournament_historic(sorted_data)
+        sorted_data = Tournament.in_progress_tournament()
+        if sorted_data != []:
+            self.view.display_tournament_historic(sorted_data)
+            result = self.view.display_running_ask_id()
+            if isinstance(result, int):
+                self.resume_tournament(result)
+        else:
+            print("Pas de tournois à afficher")
         if validation == True:
             input("\nAppuyez sur Entreé pour continuer ")
 

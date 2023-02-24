@@ -14,11 +14,12 @@ class ViewTournament:
             print("\n", " Gestion des tournois ".center(80, "-"), "\n")
             print("1. Création d'un tournoi")
             print("2. Historique des tournois")
-            print("3. Revenir au menu précédent")
+            print("3. Reprise d'un tournoi")
+            print("4. Revenir au menu précédent")
 
             choice = input("\nEntrez votre choix : ")
 
-            if choice in ["1", "2", "3"]:
+            if choice in ["1", "2", "3", "4"]:
                 return choice
 
             print("Choix invalide.\n")

@@ -1,5 +1,6 @@
 from .database import Database
 from models.player import Player
+from models.rounds_model import PlayerScore, Match
 from utils.db import db_tournament
 
 
@@ -65,7 +66,7 @@ class Tournament:
 
     @classmethod
     def deserialize(cls, data):
-        if data["meetings"] == []:
+        if data["meetings"] == "[]":
             data["meetings"] = "rencontres"
 
         data["vainqueur"] = "undifined"
@@ -139,7 +140,7 @@ class Tournament:
         return games
 
     def ask_score(self):
-        values = (1, 2, 3)
+        valid_input = (1, 2, 3)
         while True:
             score = input(
                 f"Entrez le vainqueur (1 : Joueur 1   2 : Joueur 2   3 : Nul) "
@@ -149,33 +150,33 @@ class Tournament:
             except ValueError:
                 score = float(score)
 
-            if score in values:
-                break
-            else:
-                print("Merci d'entrer une valeur proposée ")
+            if score in valid_input:
+                return score
 
-        if score == 2:
-            score = 0
-        elif score == 3:
-            score = 0.5
+            print("Merci d'entrer une valeur proposée ")
 
-        return score
-
-    def sort_players_score_next_round(self):
-        final_list = []
+    def get_matches(self):
+        """
+        It takes a list of players, sorts them by their rating, and then creates a list of matches where
+        each player is paired with the next player in the list, as long as they haven't played each
+        other before
+        :return: A list of dictionaries.
+        """
+        matches = []
         sorted_list = Player.sort_players_list_by(self.players)
-        selected_player = sorted_list
+        selected_player = sorted_list.copy()
         while len(selected_player) > 0:
-            match = {}
             player = selected_player[0]
             opponent = selected_player[1]
             players_met = self.meetings.get(player.id, [])
             if opponent.id not in players_met:
-                match[player] = opponent
-                final_list.append(match)
                 selected_player.remove(player)
                 selected_player.remove(opponent)
-        return final_list
+                ps1 = PlayerScore(player)
+                ps2 = PlayerScore(opponent)
+                match = Match(ps1, ps2)
+                matches.append(match)
+        return matches
 
     @classmethod
     def in_progress_tournament(cls):
