@@ -1,0 +1,127 @@
+{
+    "_default": {
+        "1": {
+            "tournament_name": "Tournoi de Troyes",
+            "nb_player": "4",
+            "type": "Bullet",
+            "nb_rounds": 2,
+            "players": [
+                8,
+                2,
+                1,
+                5
+            ],
+            "current_round": 3,
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "start": "13/01/2023",
+                    "end": "13/01/2023",
+                    "matches": [
+                        [
+                            [
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                5,
+                                1
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 2 ",
+                    "start": "<built-in method today of type object at 0x00007FFE8C839960>",
+                    "end": "<built-in method today of type object at 0x00007FFE8C839960>",
+                    "matches": [
+                        [
+                            [
+                                1,
+                                1
+                            ],
+                            [
+                                5,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                2,
+                                1
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 3 ",
+                    "start": "<built-in method today of type object at 0x00007FFE8C839960>",
+                    "end": "<built-in method today of type object at 0x00007FFE8C839960>",
+                    "matches": [
+                        [
+                            [
+                                1,
+                                1
+                            ],
+                            [
+                                5,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                0
+                            ],
+                            [
+                                8,
+                                1
+                            ]
+                        ]
+                    ]
+                }
+            ],
+            "meetings": {
+                "1": [
+                    8
+                ],
+                "5": [
+                    2
+                ]
+            },
+            "vainqueur": "Pierre",
+            "status": 1
+        },
+        "2": {
+            "tournament_name": "Tounoi",
+            "nb_player": "4",
+            "type": "Bullet",
+            "nb_rounds": -1,
+            "players": [
+                2,
+                1,
+                4,
+                3
+            ],
+            "current_round": 0,
+            "rounds": [],
+            "meetings": {},
+            "vainqueur": "Undefined",
+            "status": 0
+        }
+    }
+}

@@ -1,4 +1,3 @@
-import json
 from tabulate import tabulate
 from utils.db import db_player
 

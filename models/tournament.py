@@ -36,13 +36,12 @@ class Tournament:
         self.id = None
 
     def __str__(self) -> str:
-        return self.name
+        return self.tournament_name
 
     def serialize(self) -> dict:
         """Return a dictionnary with the object attribute value"""
         rounds = []
         [rounds.append(round.serialize()) for round in self.rounds]
-        print(rounds)
         data = {
             "tournament_name": self.tournament_name,
             "nb_player": self.nb_players,
@@ -56,7 +55,6 @@ class Tournament:
             "status": self.status,
         }
         current_round = int(data["current_round"])
-        print(current_round)
         try:
             if current_round >= self.nb_rounds:
                 data["vainqueur"] = self.winner.first_name
@@ -90,12 +88,10 @@ class Tournament:
 
     @classmethod
     def deserialize_players(self, players_id):
-        print(players_id)
         return players_id
 
     def get_players_data(self, players_ids: list[int]) -> list[Player]:
         """Return a players list from db (object)"""
-        print(f" list d'id de players {players_ids}")
         players_list = []
         for player_id in players_ids:
             player_id = int(player_id)
@@ -143,7 +139,7 @@ class Tournament:
         valid_input = (1, 2, 3)
         while True:
             score = input(
-                f"Entrez le vainqueur (1 : Joueur 1   2 : Joueur 2   3 : Nul) "
+                "Entrez le vainqueur (1 : Joueur 1   2 : Joueur 2   3 : Nul) "
             )
             try:
                 score = int(score)
@@ -179,7 +175,25 @@ class Tournament:
         return matches
 
     @classmethod
+    def sort_tournament_data(cls, data):
+        sorted_data = []
+        tournament = {}
+        for element in data:
+            tournament["tournament_name"] = element["tournament_name"]
+            tournament["type"] = element["type"]
+            tournament["nb_rounds"] = element["nb_rounds"]
+            tournament["id"] = element["id"]
+            sorted_data.append(tournament)
+        return sorted_data
+
+    @classmethod
     def in_progress_tournament(cls):
+        search = db_tournament.get_in_progress(0)
+        parse = cls.parse_in_progress(search)
+        return parse
+
+    @classmethod
+    def done_tournament(cls):
         search = db_tournament.get_in_progress(0)
         parse = cls.parse_in_progress(search)
         return parse
@@ -199,6 +213,6 @@ class Tournament:
         print(count)
         i = 0
         while i != 4:
-            result = data[:count] + f"\n" + data[count:]
+            result = data[:count] + "\n" + data[count:]
             i += 1
         return result

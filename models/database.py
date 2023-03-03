@@ -8,16 +8,14 @@ class Database:
         self.db = TinyDB(db_name)
 
     def save_db(self, data):
-
         self.db.insert(data)
-        print(f"sauvegardé avec succès.")
 
     def update_db(self, serialized_data, ids: list, tournament=False):
 
         self.db.update(serialized_data, doc_ids=ids)
-        if tournament == False:
+        if tournament is False:
             print(f"{serialized_data['name']} updaté avec succès.")
-        if tournament == True:
+        if tournament is True:
             print(f"{serialized_data['tournament_name']} updaté avec succès.")
 
     def update_player_rank(self, serialized_data):
@@ -31,7 +29,6 @@ class Database:
         print(f"{serialized_data['name']} updaté avec succès.")
 
     def sorted_by(self, order):
-        db_name = self.db
         reverse = False
         valid_name = ["name", "elo", "tournament_name", "elo"]
         if order not in valid_name:
@@ -52,8 +49,6 @@ class Database:
         return result
 
     def get_running_tournament(self):
-        db_name = self.db
-        reverse = False
         data = self.get_all_data()
         return data
 

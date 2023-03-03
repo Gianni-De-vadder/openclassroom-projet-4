@@ -1,8 +1,5 @@
-from secrets import choice
-from turtle import update
 from views.view_player import ViewPlayer
 from models.player import Player
-from models.database import Database
 from utils.db import db_player
 import json
 
@@ -62,19 +59,19 @@ class PlayerController:
 
     def update_player(self):
         """Manage player update"""
-        choice = input(
+        user_choice = input(
             'Afficher les joueur par rang ou nom ? (Rang = 0 , Nom = 1, Quitter = "q") :'
         )
-        if choice == "0":
+        if user_choice == "0":
             players_list_by_elo = self.display_players_order_by_elo()
             print(players_list_by_elo)
             player_id = int(input("Entez l'identifiant du joueur souhaité : "))
 
-        elif choice == "1":
+        elif user_choice == "1":
             self.display_players_order_by_name()
             player_id = int(input("Entez l'identifiant du joueur souhaité : "))
 
-        elif choice == "q":
+        elif user_choice == "q":
             return None
 
         else:
@@ -90,7 +87,7 @@ class PlayerController:
             user_entries["dob"],
         )
 
-        serialized_player = self.database.serialize(player)
+        serialized_player = db_player.serialize(player)
 
         self.database.update_db(serialized_player, [player_id])
 
@@ -103,7 +100,7 @@ class PlayerController:
         players_by_name = self.database.sorted_by("name")
         print(players_by_name)
         self.view.display_players_list(players_by_name)
-        if validation == True:
+        if validation is True:
             input("\nAppuyez sur Entreé pour continuer ")
 
     @classmethod
@@ -111,12 +108,12 @@ class PlayerController:
         """Print players order by name"""
         players_by_name = db_player.sorted_by("name")
         ViewPlayer.display_players_list(self, players_by_name)
-        if validation == True:
+        if validation is True:
             input("\nAppuyez sur Entreé pour continuer ")
 
     def display_players_order_by_elo(self, validation=False):
         """Print players order by rank"""
         players_by_elo = self.database.sorted_by("elo")
         self.view.display_players_list(players_by_elo)
-        if validation == True:
+        if validation is True:
             input("\nAppuyez sur Entreé pour continuer ")

@@ -15,11 +15,12 @@ class ViewTournament:
             print("1. Création d'un tournoi")
             print("2. Historique des tournois")
             print("3. Reprise d'un tournoi")
-            print("4. Revenir au menu précédent")
+            print("4. Rapport d'un tournoi")
+            print("5. Revenir au menu précédent")
 
             choice = input("\nEntrez votre choix : ")
 
-            if choice in ["1", "2", "3", "4"]:
+            if choice in ["1", "2", "3", "4", "5"]:
                 return choice
 
             print("Choix invalide.\n")
@@ -51,9 +52,20 @@ class ViewTournament:
 
             max_rounds = int(nb_players) - 1
 
-            nb_rounds = input(
-                f"Nombre de rounds ({max_rounds} maximum pour {nb_players} joueurs)  : "
-            )
+            while True:
+                nb_rounds = input(
+                    f"Nombre de rounds ({max_rounds} maximum pour {nb_players} joueurs)  : "
+                )
+                nb_rounds = int(nb_rounds)
+                max_rounds = int(max_rounds)
+
+                if nb_rounds > max_rounds:
+                    print(
+                        "Merci d'entrer un nombre inferieur au nombre maximum de rounds"
+                    )
+                    pass
+                else:
+                    break
             print(nb_players)
 
             tournament = {
@@ -63,7 +75,6 @@ class ViewTournament:
                 "nb_rounds": nb_rounds,
                 "players_ids": players_ids,
             }
-            i = 0
 
             print(tournament)
 
@@ -90,7 +101,10 @@ class ViewTournament:
     def ask_tournaments(self):
         while True:
             choice = input(
-                "Voulez-vous voir les tournois en cours ou tous les tournoi ? (1 - En cours / 2 - Tous / q - Quitter) : "
+                (
+                    "Voulez-vous voir les tournois"
+                    "en cours ou tous les tournoi ? (1 - En cours / 2 - Tous / q - Quitter) : "
+                )
             )
             if choice == "1":
                 print("Voici les tournois en cours : ")
@@ -106,7 +120,7 @@ class ViewTournament:
 
     def display_running_ask_id(self):
         while True:
-            choice = input("Merci de taper l'id du tournoi à reprendre (q - Quitter )")
+            choice = input("Merci de taper l'id du tournoi (q - Quitter )")
             try:
                 choice = int(choice)
             except:
@@ -156,13 +170,39 @@ class ViewTournament:
             else:
                 continue
 
+    def input_id_verification(self, user_input, validation=False):
+        while True:
+            if isinstance(int(user_input), int):
+                self.display_message(f"Affichage du tournoi {user_input}")
+                break
+            elif user_input == "q" or user_input == "Q":
+                self.display_message(f"Sortie")
+                return False
+            else:
+                self.display_message(f"Merci d'entrer un id valable")
+        if validation is True:
+            self.ask_input("\nAppuyez sur Entreé pour continuer ")
+        return True
+
+    def display_matches(self, match):
+        p1 = match.player_score1.player
+        p2 = match.player_score2.player
+        print(f"{p1.first_name} {p1.name} jouera contre {p2.first_name} {p2.name}")
+
+    def display_message(self, message):
+        print(message)
+
+    def ask_input(self, message):
+        result = input(message)
+        return result
+
     @classmethod
     def input_score(cls, match):
         print(
             f"Indiquer le résultat entre les {match.p1_full_name} et {match.p2_full_name}"
         )
         score = input(
-            f"Qui est le vainqueur (1 : Joueur 1 / 2 : Joueur 2 / 3 : Match Nul) : "
+            "Qui est le vainqueur (1 : Joueur 1 / 2 : Joueur 2 / 3 : Match Nul) : "
         )
         return score
 

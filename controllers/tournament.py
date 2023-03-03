@@ -1,4 +1,3 @@
-from models.database import Database
 from models.player import Player
 from models.rounds_model import Match, PlayerScore, Round
 from models.tournament import Tournament
@@ -28,8 +27,10 @@ class TournamentController:
 
             elif choice == "3":
                 self.show_running_tournament()
-
             elif choice == "4":
+                self.show_tournaments_rapports()
+
+            elif choice == "5":
                 exit_requested = True
 
     def create_tournament(self):
@@ -48,14 +49,16 @@ class TournamentController:
             user_entries["players_ids"]
         )
 
-        start = self.view.select_start()
+        play = self.view.select_start()
 
-        if start == True:
-            print("Démarrage du tournoi")
+        if play is True:
+            self.view.display_message("Démarrage du tournoi")
             self.play_tournament()
 
         else:
-            print("Tournoi Sauvegardé, voir historique pour reprendre")
+            self.view.display_message(
+                "Tournoi Sauvegardé, voir menu reprise d'un tournoi"
+            )
             serialized_tournament = self.tournament.serialize()
             self.database.save_db(serialized_tournament)
 
@@ -65,13 +68,15 @@ class TournamentController:
     def play_tournament(self, resume=False):
         first_round = self.get_first_round()
         first_round.serialize()
-        if resume == True:
-            print(self.tournament.meetings)
+        if resume is True:
+            self.view.display_message(self.tournament.meetings)
         self.tournament.nb_rounds = int(self.tournament.nb_rounds)
         while self.tournament.current_round <= self.tournament.nb_rounds:
-            continue_rounds = input(
-                f"Round {self.tournament.current_round + 1} : Souhaitez-vous continuer le tournoi ou reprendre plus tard ? ( 1 - Oui/ 2 - Non) "
+            msg = (
+                f"Round {self.tournament.current_round + 1} : Souhaitez-vous continuer le tournoi ou sauvegarder"
+                "et reprendre plus tard ? ( 1 - Continuer/ 2 - Sauvegarder)"
             )
+            continue_rounds = self.view.ask_input(msg)
             if continue_rounds == "1":
                 self.get_next_round()
             elif continue_rounds == "2":
@@ -79,10 +84,10 @@ class TournamentController:
                 db_tournament.update_db(serialize, self.tournament.id, tournament=True)
                 break
             else:
-                print("Merci d'entrer un choix proposé (1 ou 2)")
+                self.view.display_message("Merci d'entrer un choix proposé (1 ou 2)")
 
         classment = Player.sort_players_list_by(self.tournament.players)
-        print(f"{classment[0]} est le vainqueur")
+        self.view.display_message(f"{classment[0]} est le vainqueur")
         self.tournament.winner = classment[0]
         if self.tournament.current_round >= self.tournament.nb_rounds:
             self.tournament.status = 1
@@ -90,12 +95,12 @@ class TournamentController:
         else:
             self.tournament.status = 0
         serialize = self.tournament.serialize()
-        if resume == False:
+        if resume is False:
             db_tournament.save_db(serialize)
-        if resume == True:
+        if resume is True:
             db_tournament.update_db(serialize, self.tournament.id, tournament=True)
 
-        print(f"tournament_data : {serialize}")
+        self.view.display_message(f"tournament_data : {serialize}")
 
         # Saisir resultat match ou sortir ?
         # Lancer round suivant
@@ -126,35 +131,43 @@ class TournamentController:
         self.meetings = {}
 
         i = 0
+        for game in games:
+            player1 = games[i][0]
+            player2 = games[i][1]
+            self.view.display_message(
+                f"{player1.first_name} {player1.name} jouera contre {player2.first_name} {player2.name}"
+            )
+            i += 1
+
+        i = 0
         for idx, player in enumerate(games):
-            print(
-                f"Match entre : {games[i][0].first_name} {games[i][0].name} et {games[i][1].first_name} {games[i][1].name} :"
+            p1 = games[i][0]
+            p2 = games[i][1]
+            self.view.display_message(
+                f"Match entre : {p1.first_name} {p1.name} et {p2.first_name} {p2.name} :"
             )
             total_score = 1
             p1_score = self.tournament.ask_score()
             p2_score = total_score - p1_score
-            # Créer Playerscore 1
+
             ps1 = PlayerScore(games[i][0], p1_score)
 
-            # Créer Playerscore 2
             ps2 = PlayerScore(games[i][1], p2_score)
-            print(ps1)
-            print(ps2)
+            self.view.display_message(ps1)
+            self.view.display_message(ps2)
 
-            # Créer match(Playerscore1, Playerscore2)
             match = Match(ps1, ps1)
 
             self.tournament.meetings[ps1.player.id] = [ps2.player.id]
-            print(self.tournament.meetings)
+            self.view.display_message(self.tournament.meetings)
 
-            # Ajouter match à la liste de match
             matches.append(match)
             i += 1
         # Créer round
         self.tournament.current_round += 1
         round = Round("Round 1", matches, "13/01/2023", "13/01/2023", "Terminé")
         self.tournament.rounds.append(round)
-        print(f" Round numéro : {self.tournament.current_round}")
+        self.view.display_message(f" Round numéro : {self.tournament.current_round}")
 
         # Retourner Round
         return round
@@ -164,13 +177,20 @@ class TournamentController:
         # -Trier joueurs par ELO
 
         matches: list[Match] = self.tournament.get_matches()
+
         # Créer liste de match (vide)
+        for match in matches:
+            self.view.display_message("\nMatches : ")
+            self.view.display_matches(match)
 
         for match in matches:
             player1 = match.player_score1
             player2 = match.player_score2
-            print(
-                f"Match entre : {player1.player.first_name} {player1.player.name} et {player2.player.first_name} {player2.player.name} :"
+            self.view.display_message(
+                (
+                    f"\nMatch entre : {player1.player.first_name} {player1.player.name} "
+                    f"et {player2.player.first_name} {player2.player.name} :"
+                )
             )
             match_result = self.tournament.ask_score()
             if match_result == 1:
@@ -183,7 +203,9 @@ class TournamentController:
 
             # Créer round
         self.tournament.current_round += 1
-        print(f" Round numéro : {self.tournament.current_round} terminé")
+        self.view.display_message(
+            f" Round numéro : {self.tournament.current_round} terminé"
+        )
 
         round = Round(
             f"Round {self.tournament.current_round} ",
@@ -204,9 +226,9 @@ class TournamentController:
                 element["rounds"] = "Trop long pour afficher"
             self.view.display_tournament_historic(sorted_data)
         else:
-            print("Pas de tournois à afficher")
-        if validation == True:
-            input("\nAppuyez sur Entreé pour continuer ")
+            self.view.display_message("Pas de tournois à afficher")
+        if validation is True:
+            self.view.ask_input("\nAppuyez sur Entreé pour continuer ")
 
     def show_running_tournament(self, validation=False):
         sorted_data = Tournament.in_progress_tournament()
@@ -216,9 +238,22 @@ class TournamentController:
             if isinstance(result, int):
                 self.resume_tournament(result)
         else:
-            print("Pas de tournois à afficher")
-        if validation == True:
-            input("\nAppuyez sur Entreé pour continuer ")
+            self.view.display_message("Pas de tournois à afficher")
+        if validation is True:
+            self.view.ask_input("\nAppuyez sur Entreé pour continuer ")
+
+    def show_tournaments_rapports(self, validation=False):
+        data = db_tournament.sorted_by("tournament_name")
+        sorted_data = Tournament.sort_tournament_data(data)
+        self.view.display_tournament_historic(sorted_data)
+        user_input = self.view.display_running_ask_id()
+        verification = self.view.input_id_verification(user_input, validation=True)
+        if verification is True:
+            print("coucou")
+        tournament_data = db_tournament.get_element_by_id(user_input)
+        tournament = Tournament.deserialize(tournament_data)
+        self.view.display_tournament_historic(tournament_data)
+        self.view.display_message(tournament.nb_players)
 
     def display_players_order_by_name(self):
         """Print players order by name"""
