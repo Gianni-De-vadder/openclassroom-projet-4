@@ -123,7 +123,7 @@ class ViewTournament:
             choice = input("Merci de taper l'id du tournoi (q - Quitter )")
             try:
                 choice = int(choice)
-            except:
+            except ValueError:
                 pass
             print(choice)
             if choice == "q" or choice == "Q":
@@ -176,10 +176,10 @@ class ViewTournament:
                 self.display_message(f"Affichage du tournoi {user_input}")
                 break
             elif user_input == "q" or user_input == "Q":
-                self.display_message(f"Sortie")
+                self.display_message("Sortie")
                 return False
             else:
-                self.display_message(f"Merci d'entrer un id valable")
+                self.display_message("Merci d'entrer un id valable")
         if validation is True:
             self.ask_input("\nAppuyez sur Entreé pour continuer ")
         return True
@@ -187,7 +187,14 @@ class ViewTournament:
     def display_matches(self, match):
         p1 = match.player_score1.player
         p2 = match.player_score2.player
-        print(f"{p1.first_name} {p1.name} jouera contre {p2.first_name} {p2.name}")
+        print(f"{p1.first_name} {p1.name}  contre {p2.first_name} {p2.name}")
+
+    def display_tournament_rapport(self, tournament: object):
+        print(tournament.tournament_name)
+        # print(tournament.players[0].first_name)
+
+        # for round in tournament.rounds:
+        #     print(round["matches"])
 
     def display_message(self, message):
         print(message)

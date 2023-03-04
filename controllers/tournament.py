@@ -249,11 +249,10 @@ class TournamentController:
         user_input = self.view.display_running_ask_id()
         verification = self.view.input_id_verification(user_input, validation=True)
         if verification is True:
-            print("coucou")
-        tournament_data = db_tournament.get_element_by_id(user_input)
-        tournament = Tournament.deserialize(tournament_data)
-        self.view.display_tournament_historic(tournament_data)
-        self.view.display_message(tournament.nb_players)
+            tournament_data = db_tournament.get_element_by_id(user_input)
+            self.tournament = Tournament.deserialize(tournament_data)
+            self.view.display_tournament_rapport(self.tournament)
+            self.tournament.deserialize_matches()
 
     def display_players_order_by_name(self):
         """Print players order by name"""

@@ -58,7 +58,7 @@ class Tournament:
         try:
             if current_round >= self.nb_rounds:
                 data["vainqueur"] = self.winner.first_name
-        except:
+        except KeyError:
             pass
         return data
 
@@ -75,12 +75,15 @@ class Tournament:
             data["nb_rounds"],
             "0",
             int(data["current_round"]),
-            data["rounds"],
+            [],
             data["meetings"],
             int(data["status"]),
             str(data["vainqueur"]),
             data["id"],
         )
+        for round in data["rounds"]:
+            tournament.rounds.append(round)
+
         players_id = Tournament.deserialize_players(data["players"])
         players = tournament.get_players_data(players_id)
         tournament.players = players
@@ -173,6 +176,11 @@ class Tournament:
                 match = Match(ps1, ps2)
                 matches.append(match)
         return matches
+
+    def deserialize_matches(self):
+        print(self.rounds)
+        for round in self.rounds:
+            print(round["matches"][0])
 
     @classmethod
     def sort_tournament_data(cls, data):
