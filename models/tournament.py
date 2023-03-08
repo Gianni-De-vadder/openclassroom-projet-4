@@ -1,6 +1,6 @@
 from .database import Database
 from models.player import Player
-from models.rounds_model import PlayerScore, Match
+from models.rounds_model import PlayerScore, Match, Round
 from utils.db import db_tournament
 
 
@@ -65,9 +65,10 @@ class Tournament:
     @classmethod
     def deserialize(cls, data):
         if data["meetings"] == "[]":
-            data["meetings"] = "rencontres"
+            data["meetings"] = "undifined"
 
-        data["vainqueur"] = "undifined"
+        if data["meetings"] == "":
+            data["vainqueur"] = "undifined"
         tournament = Tournament(
             data["tournament_name"],
             data["nb_player"],
@@ -81,8 +82,10 @@ class Tournament:
             str(data["vainqueur"]),
             data["id"],
         )
-        for round in data["rounds"]:
-            tournament.rounds.append(round)
+
+        tournament.rounds = [
+            Round.create_from_document(round) for round in data["rounds"]
+        ]
 
         players_id = Tournament.deserialize_players(data["players"])
         players = tournament.get_players_data(players_id)
@@ -178,9 +181,9 @@ class Tournament:
         return matches
 
     def deserialize_matches(self):
-        print(self.rounds)
+        """"""
         for round in self.rounds:
-            print(round["matches"][0])
+            print(round.matches[0])
 
     @classmethod
     def sort_tournament_data(cls, data):

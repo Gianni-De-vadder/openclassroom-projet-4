@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from datetime import date
 
 from models.player import Player
+from utils.db import db_player
 
 
 class PlayerScore:
@@ -39,12 +40,16 @@ class Match:
     @property
     def p1_full_name(self):
         """Return firstname and name of player 1"""
-        return self.player_score1.player.full_name
+        return (
+            f"{self.player_score1.player.first_name} {self.player_score1.player.name}"
+        )
 
     @property
     def p2_full_name(self):
         """Return firstname and name of player 2"""
-        return self.player_score2.player.full_name
+        return (
+            f"{self.player_score2.player.first_name} {self.player_score2.player.name}"
+        )
 
     def __str__(self) -> str:
         msg = f"{self.p1_full_name} : {self.player_score1.score} VS {self.p2_full_name} : {self.player_score2.score}"
@@ -58,7 +63,7 @@ class Match:
         return [player_score1, player_score2]
 
     @classmethod
-    def create_from_document(cls, data: list, player_table) -> "Match":
+    def create_from_document(cls, data: list) -> "Match":
         """Return a Match object from a list"""
 
         matches: list[Match] = []
@@ -68,8 +73,8 @@ class Match:
             # First: Get the player
             id1 = element[0][0]
             id2 = element[1][0]
-            player1 = Player.create_from_document(player_table.get_by_id(id1))
-            player2 = Player.create_from_document(player_table.get_by_id(id2))
+            player1 = Player.create_from_document(Player.get_player_by_id(id1))
+            player2 = Player.create_from_document(Player.get_player_by_id(id2))
 
             # Second: Create the PlayerScore
             score_p1 = element[0][1]
@@ -114,13 +119,13 @@ class Round:
         return data
 
     @classmethod
-    def create_from_document(csl, data: dict, player_table) -> "Round":
+    def create_from_document(csl, data: dict) -> "Round":
         """Return a Round object from a dict"""
         # create the round unpacking the simple data
         round = csl(**data)
 
         # create the more complex object (Match object)
-        round.matches = Match.create_from_document(data["matches"], player_table)
+        round.matches = Match.create_from_document(data["matches"])
         return round
 
 

@@ -100,8 +100,6 @@ class TournamentController:
         if resume is True:
             db_tournament.update_db(serialize, self.tournament.id, tournament=True)
 
-        self.view.display_message(f"tournament_data : {serialize}")
-
         # Saisir resultat match ou sortir ?
         # Lancer round suivant
 
@@ -242,17 +240,18 @@ class TournamentController:
         if validation is True:
             self.view.ask_input("\nAppuyez sur Entreé pour continuer ")
 
-    def show_tournaments_rapports(self, validation=False):
+    def show_tournaments_rapports(self):
         data = db_tournament.sorted_by("tournament_name")
         sorted_data = Tournament.sort_tournament_data(data)
         self.view.display_tournament_historic(sorted_data)
         user_input = self.view.display_running_ask_id()
-        verification = self.view.input_id_verification(user_input, validation=True)
+        verification = self.view.input_id_verification(user_input, validation=False)
         if verification is True:
             tournament_data = db_tournament.get_element_by_id(user_input)
             self.tournament = Tournament.deserialize(tournament_data)
             self.view.display_tournament_rapport(self.tournament)
-            self.tournament.deserialize_matches()
+            classment = Player.sort_players_list_by(self.tournament.players)
+            self.view.display_tournament_final_classment(classment)
 
     def display_players_order_by_name(self):
         """Print players order by name"""
