@@ -1,1 +1,826 @@
-{"_default": {"1": {"tournament_name": "Tournoi de l\u00e0", "nb_player": "8", "type": "Bullet", "nb_rounds": 7, "players": [1, 2, 3, 4, 5, 6, 7, 8], "current_round": 1, "rounds": [{"name": "Round 1", "start": "13/01/2023", "end": "13/01/2023", "matches": [[[1, 1], [1, 1]], [[8, 2], [8, 2]], [[2, 1], [2, 1]], [[4, 2], [4, 2]]]}], "meetings": {"1": [6], "8": [5], "2": [7], "4": [3]}, "vainqueur": "Undefined", "status": 0}, "2": {"tournament_name": "Tournoi de l\u00e0", "nb_player": "8", "type": "Bullet", "nb_rounds": 7, "players": [1, 2, 3, 4, 5, 6, 7, 8], "current_round": 1, "rounds": [{"name": "Round 1", "start": "13/01/2023", "end": "13/01/2023", "matches": [[[1, 1], [1, 1]], [[8, 2], [8, 2]], [[2, 1], [2, 1]], [[4, 2], [4, 2]]]}], "meetings": {"1": [6], "8": [5], "2": [7], "4": [3]}, "vainqueur": "Undefined", "status": 0}, "3": {"tournament_name": "Tournoi de l\u00e0", "nb_player": "8", "type": "Bullet", "nb_rounds": 7, "players": [1, 2, 3, 4, 5, 6, 7, 8], "current_round": 1, "rounds": [{"name": "Round 1", "start": "13/01/2023", "end": "13/01/2023", "matches": [[[1, 1], [1, 1]], [[8, 2], [8, 2]], [[2, 1], [2, 1]], [[4, 2], [4, 2]]]}], "meetings": {"1": [6], "8": [5], "2": [7], "4": [3]}, "vainqueur": "Undefined", "status": 0}, "4": {"tournament_name": "Tournoi de l\u00e0", "nb_player": "8", "type": "Bullet", "nb_rounds": 7, "players": [1, 2, 3, 4, 5, 6, 7, 8], "current_round": 1, "rounds": [{"name": "Round 1", "start": "13/01/2023", "end": "13/01/2023", "matches": [[[1, 1], [1, 1]], [[8, 2], [8, 2]], [[2, 1], [2, 1]], [[4, 2], [4, 2]]]}], "meetings": {"1": [6], "8": [5], "2": [7], "4": [3]}, "vainqueur": "Undefined", "status": 0}, "5": {"tournament_name": "Tournoi de l\u00e0", "nb_player": "8", "type": "Bullet", "nb_rounds": 7, "players": [1, 2, 3, 4, 5, 6, 7, 8], "current_round": 1, "rounds": [{"name": "Round 1", "start": "13/01/2023", "end": "13/01/2023", "matches": [[[1, 1], [1, 1]], [[8, 2], [8, 2]], [[2, 1], [2, 1]], [[4, 2], [4, 2]]]}], "meetings": {"1": [6], "8": [5], "2": [7], "4": [3]}, "vainqueur": "Undefined", "status": 0}, "6": {"tournament_name": "Tournoi de l\u00e0", "nb_player": "8", "type": "Bullet", "nb_rounds": 7, "players": [1, 2, 3, 4, 5, 6, 7, 8], "current_round": 1, "rounds": [{"name": "Round 1", "start": "13/01/2023", "end": "13/01/2023", "matches": [[[1, 1], [1, 1]], [[8, 2], [8, 2]], [[2, 1], [2, 1]], [[4, 2], [4, 2]]]}], "meetings": {"1": [6], "8": [5], "2": [7], "4": [3]}, "vainqueur": "Undefined", "status": 0}}}
+{
+    "_default": {
+        "1": {
+            "tournament_name": "Tournoi de Lille",
+            "nb_player": "8",
+            "type": "Bullet",
+            "nb_rounds": 7,
+            "players": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "current_round": 8,
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "start": "13/01/2023",
+                    "end": "13/01/2023",
+                    "matches": [
+                        [
+                            [
+                                1,
+                                1
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                2
+                            ],
+                            [
+                                8,
+                                2
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                1
+                            ],
+                            [
+                                2,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                4,
+                                2
+                            ],
+                            [
+                                4,
+                                2
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 2 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                4,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                0
+                            ],
+                            [
+                                7,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                3,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 3 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                4,
+                                1
+                            ],
+                            [
+                                1,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                7,
+                                1
+                            ],
+                            [
+                                6,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                3,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 4 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                4,
+                                1
+                            ],
+                            [
+                                8,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                0
+                            ],
+                            [
+                                7,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                1
+                            ],
+                            [
+                                3,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 5 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                4,
+                                1
+                            ],
+                            [
+                                8,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                7,
+                                0
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                6,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                1
+                            ],
+                            [
+                                3,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 6 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                4,
+                                1
+                            ],
+                            [
+                                1,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                7,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                0
+                            ],
+                            [
+                                6,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                3,
+                                1
+                            ],
+                            [
+                                5,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 7 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                4,
+                                0
+                            ],
+                            [
+                                7,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                0
+                            ],
+                            [
+                                8,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                0
+                            ],
+                            [
+                                6,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                1
+                            ],
+                            [
+                                3,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 8 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                4,
+                                0
+                            ],
+                            [
+                                7,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                1
+                            ],
+                            [
+                                5,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                1
+                            ],
+                            [
+                                3,
+                                0
+                            ]
+                        ]
+                    ]
+                }
+            ],
+            "meetings": {
+                "1": [
+                    6
+                ],
+                "8": [
+                    5
+                ],
+                "2": [
+                    7
+                ],
+                "4": [
+                    3
+                ]
+            },
+            "vainqueur": "jk",
+            "status": 1
+        },
+        "2": {
+            "tournament_name": "Tournoi de Croix",
+            "nb_player": "8",
+            "type": "Bullet",
+            "nb_rounds": 7,
+            "players": [
+                1,
+                5,
+                6,
+                11,
+                12,
+                8,
+                2,
+                13
+            ],
+            "current_round": 8,
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "start": "13/01/2023",
+                    "end": "13/01/2023",
+                    "matches": [
+                        [
+                            [
+                                12,
+                                1
+                            ],
+                            [
+                                12,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                5,
+                                2
+                            ],
+                            [
+                                5,
+                                2
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                1
+                            ],
+                            [
+                                6,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                13,
+                                1
+                            ],
+                            [
+                                13,
+                                1
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 2 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                12,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                0
+                            ],
+                            [
+                                13,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                1
+                            ],
+                            [
+                                1,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                11,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 3 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                13,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                12,
+                                0
+                            ],
+                            [
+                                6,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                11,
+                                0
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                0
+                            ],
+                            [
+                                8,
+                                1
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 4 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                8,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                0
+                            ],
+                            [
+                                13,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                12,
+                                0
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                11,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 5 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                13,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                6,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                0
+                            ],
+                            [
+                                11,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                12,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 6 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                6,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                13,
+                                1
+                            ],
+                            [
+                                12,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                1,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                2,
+                                1
+                            ],
+                            [
+                                11,
+                                0
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 7 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                13,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                6,
+                                0
+                            ],
+                            [
+                                11,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                12,
+                                1
+                            ],
+                            [
+                                2,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                0
+                            ],
+                            [
+                                8,
+                                1
+                            ]
+                        ]
+                    ]
+                },
+                {
+                    "name": "Round 8 ",
+                    "start": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "end": "<built-in method today of type object at 0x00007FF9FBB59960>",
+                    "matches": [
+                        [
+                            [
+                                5,
+                                1
+                            ],
+                            [
+                                13,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                11,
+                                1
+                            ],
+                            [
+                                12,
+                                0
+                            ]
+                        ],
+                        [
+                            [
+                                8,
+                                0
+                            ],
+                            [
+                                6,
+                                1
+                            ]
+                        ],
+                        [
+                            [
+                                1,
+                                0
+                            ],
+                            [
+                                2,
+                                1
+                            ]
+                        ]
+                    ]
+                }
+            ],
+            "meetings": {
+                "12": [
+                    8
+                ],
+                "5": [
+                    2
+                ],
+                "6": [
+                    1
+                ],
+                "13": [
+                    11
+                ]
+            },
+            "vainqueur": "Alison",
+            "status": 1
+        }
+    }
+}

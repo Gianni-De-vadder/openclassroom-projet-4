@@ -221,7 +221,8 @@ class TournamentController:
         sorted_data = db_tournament.sorted_by(choice)
         if sorted_data != []:
             for element in sorted_data:
-                element["rounds"] = "Trop long pour afficher"
+                del element["rounds"]
+                del element["meetings"]
             self.view.display_tournament_historic(sorted_data)
         else:
             self.view.display_message("Pas de tournois à afficher")
@@ -238,12 +239,15 @@ class TournamentController:
             elif isinstance(result, int):
                 self.resume_tournament(result)
         else:
-            self.view.display_message("Pas de tournois à afficher")
+            self.view.display_message("Pas de tournois à reprendre")
         if validation is True:
             self.view.ask_input("\nAppuyez sur Entreé pour continuer ")
 
     def show_tournaments_rapports(self):
         data = db_tournament.sorted_by("tournament_name")
+        if data == []:
+            self.view.display_message("Pas de tournois à afficher")
+            return False
         sorted_data = Tournament.sort_tournament_data(data)
         self.view.display_tournament_historic(sorted_data)
         user_input = self.view.display_running_ask_id()
@@ -253,7 +257,7 @@ class TournamentController:
             self.tournament = Tournament.deserialize(tournament_data)
             self.view.display_tournament_rapport(self.tournament)
             classment = Player.sort_players_list_by(self.tournament.players)
-            self.view.display_tournament_final_classment(classment)
+            self.view.display_tournament_final_classment(self.tournament)
 
     def display_players_order_by_name(self):
         """Print players order by name"""

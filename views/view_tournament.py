@@ -191,21 +191,17 @@ class ViewTournament:
 
     def display_tournament_rapport(self, tournament: object):
         print(tournament.tournament_name)
-        # print(tournament.players[0].first_name)
-        # print(tournament.rounds[0].matches)
         for round in tournament.rounds:
-            print(round.name)
+            print(f"\n{round.name} : ")
             for match in round.matches:
                 print(
-                    f"{match.p1_full_name} ({match.player_score1.score}) vs {match.p2_full_name} ({match.player_score2.score})"
+                    f"\n{match.p1_full_name} ({match.player_score1.score}) vs {match.p2_full_name} ({match.player_score2.score})"
                 )
-        # for round in tournament.rounds:
-        #     print(round["matches"])
 
-    def display_tournament_final_classment(self, classement):
-        print("Classement Final :")
-        for player in classement:
-            print(f"{player.first_name} {player.name} ({player.score})")
+    def display_tournament_final_classment(self, tournament):
+        print(f"\n Vainqueur : {tournament.winner}")
+        # for player in classement:
+        #     print(f"{player.first_name} {player.name} ({player.score})")
 
     def display_message(self, message):
         print(message)

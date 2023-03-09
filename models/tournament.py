@@ -67,7 +67,7 @@ class Tournament:
         if data["meetings"] == "[]":
             data["meetings"] = "undifined"
 
-        if data["meetings"] == "":
+        if data["vainqueur"] == "":
             data["vainqueur"] = "undifined"
         tournament = Tournament(
             data["tournament_name"],
@@ -83,6 +83,7 @@ class Tournament:
             data["id"],
         )
 
+        tournament.winner = data["vainqueur"]
         tournament.rounds = [
             Round.create_from_document(round) for round in data["rounds"]
         ]
@@ -147,6 +148,8 @@ class Tournament:
             score = input(
                 "Entrez le vainqueur (1 : Joueur 1   2 : Joueur 2   3 : Nul) "
             )
+            if score.strip() == "":
+                continue
             try:
                 score = int(score)
             except ValueError:
@@ -167,18 +170,32 @@ class Tournament:
         matches = []
         sorted_list = Player.sort_players_list_by(self.players)
         selected_player = sorted_list.copy()
+        played_set = set()
         while len(selected_player) > 0:
             player = selected_player[0]
             opponent = selected_player[1]
             players_met = self.meetings.get(player.id, [])
             print(players_met)
-            if opponent.id not in players_met:
+            if opponent.id not in players_met and opponent.id not in played_set:
                 selected_player.remove(player)
                 selected_player.remove(opponent)
                 ps1 = PlayerScore(player)
                 ps2 = PlayerScore(opponent)
                 match = Match(ps1, ps2)
                 matches.append(match)
+                played_set.add(opponent.id)
+            elif len(selected_player) == 2 and opponent.id in played_set:
+                # If only 2 players left and they played against each other, pair them for a rematch
+                selected_player.remove(player)
+                selected_player.remove(opponent)
+                ps1 = PlayerScore(player)
+                ps2 = PlayerScore(opponent)
+                match = Match(ps1, ps2)
+                matches.append(match)
+            else:
+                # Opponent already played or is in played_set, look for the next opponent
+                selected_player.remove(opponent)
+                selected_player.append(opponent)
         return matches
 
     def deserialize_matches(self):
@@ -189,8 +206,8 @@ class Tournament:
     @classmethod
     def sort_tournament_data(cls, data):
         sorted_data = []
-        tournament = {}
         for element in data:
+            tournament = {}
             tournament["tournament_name"] = element["tournament_name"]
             tournament["type"] = element["type"]
             tournament["nb_rounds"] = element["nb_rounds"]

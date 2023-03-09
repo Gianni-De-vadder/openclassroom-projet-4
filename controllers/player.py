@@ -28,7 +28,6 @@ class PlayerController:
                 self.display_players_order_by_name(validation=True)
             elif choice == "4":
                 load_players_by_elo = self.display_players_order_by_elo(validation=True)
-                print(load_players_by_elo)
             elif choice == "5":
                 # Retour au menu précédent
                 exit_requested = True
@@ -98,7 +97,6 @@ class PlayerController:
     def display_players_order_by_name(self, validation=False):
         """Print players order by name"""
         players_by_name = self.database.sorted_by("name")
-        print(players_by_name)
         self.view.display_players_list(players_by_name)
         if validation is True:
             input("\nAppuyez sur Entreé pour continuer ")
