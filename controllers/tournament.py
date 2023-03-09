@@ -233,7 +233,9 @@ class TournamentController:
         if sorted_data != []:
             self.view.display_tournament_historic(sorted_data)
             result = self.view.display_running_ask_id()
-            if isinstance(result, int):
+            if result == False:
+                exit
+            elif isinstance(result, int):
                 self.resume_tournament(result)
         else:
             self.view.display_message("Pas de tournois à afficher")

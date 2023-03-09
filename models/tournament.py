@@ -171,6 +171,7 @@ class Tournament:
             player = selected_player[0]
             opponent = selected_player[1]
             players_met = self.meetings.get(player.id, [])
+            print(players_met)
             if opponent.id not in players_met:
                 selected_player.remove(player)
                 selected_player.remove(opponent)
@@ -212,7 +213,8 @@ class Tournament:
     @classmethod
     def parse_in_progress(cls, data):
         for element in data:
-            element["rounds"] = "Trop long pour afficher"
+            del element["rounds"]
+            del element["meetings"]
             element["status"] = "En cours"
         return data
 

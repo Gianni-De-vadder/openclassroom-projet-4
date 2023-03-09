@@ -87,7 +87,7 @@ class PlayerController:
             user_entries["dob"],
         )
 
-        serialized_player = db_player.serialize(player)
+        serialized_player = Player.serialize(player)
 
         self.database.update_db(serialized_player, [player_id])
 
