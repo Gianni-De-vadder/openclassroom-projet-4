@@ -68,12 +68,11 @@ class TournamentController:
     def play_tournament(self, resume=False):
         first_round = self.get_first_round()
         first_round.serialize()
-        if resume is True:
-            self.view.display_message(self.tournament.meetings)
+
         self.tournament.nb_rounds = int(self.tournament.nb_rounds)
         while self.tournament.current_round <= self.tournament.nb_rounds:
             msg = (
-                f"Round {self.tournament.current_round + 1} : Souhaitez-vous continuer le tournoi ou sauvegarder"
+                f"Round {self.tournament.current_round + 1} : Souhaitez-vous continuer le tournoi ou sauvegarder "
                 "et reprendre plus tard ? ( 1 - Continuer/ 2 - Sauvegarder)"
             )
             continue_rounds = self.view.ask_input(msg)
@@ -89,7 +88,7 @@ class TournamentController:
         classment = Player.sort_players_list_by(self.tournament.players)
         self.view.display_message(f"{classment[0]} est le vainqueur")
         self.tournament.winner = classment[0]
-        if self.tournament.current_round >= self.tournament.nb_rounds:
+        if self.tournament.current_round == self.tournament.nb_rounds:
             self.tournament.status = 1
 
         else:
@@ -133,7 +132,7 @@ class TournamentController:
             player1 = games[i][0]
             player2 = games[i][1]
             self.view.display_message(
-                f"{player1.first_name} {player1.name} jouera contre {player2.first_name} {player2.name}"
+                f"\n{player1.first_name} {player1.name} jouera contre {player2.first_name} {player2.name}"
             )
             i += 1
 
@@ -142,7 +141,7 @@ class TournamentController:
             p1 = games[i][0]
             p2 = games[i][1]
             self.view.display_message(
-                f"Match entre : {p1.first_name} {p1.name} et {p2.first_name} {p2.name} :"
+                f"\nMatch entre : {p1.first_name} {p1.name} et {p2.first_name} {p2.name} :"
             )
             total_score = 1
             p1_score = self.tournament.ask_score()
@@ -151,19 +150,18 @@ class TournamentController:
             ps1 = PlayerScore(games[i][0], p1_score)
 
             ps2 = PlayerScore(games[i][1], p2_score)
-            self.view.display_message(ps1)
-            self.view.display_message(ps2)
 
             match = Match(ps1, ps1)
 
             self.tournament.meetings[ps1.player.id] = [ps2.player.id]
-            self.view.display_message(self.tournament.meetings)
 
             matches.append(match)
             i += 1
         # Créer round
         self.tournament.current_round += 1
-        round = Round("Round 1", matches, "13/01/2023", "13/01/2023", "Terminé")
+        round = Round(
+            "Round 1", matches, str(date.today()), str(date.today()), "Terminé"
+        )
         self.tournament.rounds.append(round)
         self.view.display_message(f" Round numéro : {self.tournament.current_round}")
 
@@ -208,8 +206,8 @@ class TournamentController:
         round = Round(
             f"Round {self.tournament.current_round} ",
             matches,
-            str(date.today),
-            str(date.today),
+            str(date.today()),
+            str(date.today()),
             "Terminé",
         )
         self.tournament.rounds.append(round)
@@ -234,7 +232,7 @@ class TournamentController:
         if sorted_data != []:
             self.view.display_tournament_historic(sorted_data)
             result = self.view.display_running_ask_id()
-            if result == False:
+            if result is False:
                 exit
             elif isinstance(result, int):
                 self.resume_tournament(result)
@@ -256,7 +254,6 @@ class TournamentController:
             tournament_data = db_tournament.get_element_by_id(user_input)
             self.tournament = Tournament.deserialize(tournament_data)
             self.view.display_tournament_rapport(self.tournament)
-            classment = Player.sort_players_list_by(self.tournament.players)
             self.view.display_tournament_final_classment(self.tournament)
 
     def display_players_order_by_name(self):
@@ -266,5 +263,6 @@ class TournamentController:
     def resume_tournament(self, id):
         data = db_tournament.get_element_by_id(id)
         data["id"] = id
+        print(id)
         self.tournament = Tournament.deserialize(data)
         self.play_tournament(resume=True)

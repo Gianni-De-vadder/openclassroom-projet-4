@@ -82,7 +82,6 @@ class Tournament:
             str(data["vainqueur"]),
             data["id"],
         )
-
         tournament.winner = data["vainqueur"]
         tournament.rounds = [
             Round.create_from_document(round) for round in data["rounds"]

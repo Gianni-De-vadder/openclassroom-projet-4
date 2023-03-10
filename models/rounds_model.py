@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from datetime import date
 
 from models.player import Player
-from utils.db import db_player
 
 
 class PlayerScore:

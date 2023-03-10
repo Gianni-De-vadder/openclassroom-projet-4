@@ -27,7 +27,7 @@ class PlayerController:
             elif choice == "3":
                 self.display_players_order_by_name(validation=True)
             elif choice == "4":
-                load_players_by_elo = self.display_players_order_by_elo(validation=True)
+                self.display_players_order_by_elo(validation=True)
             elif choice == "5":
                 # Retour au menu précédent
                 exit_requested = True

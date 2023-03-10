@@ -195,7 +195,10 @@ class ViewTournament:
             print(f"\n{round.name} : ")
             for match in round.matches:
                 print(
-                    f"\n{match.p1_full_name} ({match.player_score1.score}) vs {match.p2_full_name} ({match.player_score2.score})"
+                    (
+                        f"\n{match.p1_full_name} ({match.player_score1.score}) "
+                        f"vs {match.p2_full_name} ({match.player_score2.score})"
+                    )
                 )
 
     def display_tournament_final_classment(self, tournament):
